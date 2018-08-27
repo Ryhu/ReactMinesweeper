@@ -10,7 +10,8 @@ class Grid extends Component {
       height: 10,
       width: 10,
       mines: 14,
-      grid: []
+      grid: [],
+      visibilityGrid: [],
     }
   }
 
@@ -27,9 +28,12 @@ class Grid extends Component {
     let mineField = this.mineLayer()
     //lays numbers on empties
     mineField = this.numberLayer(mineField)
+    //sets the visibility grid
+    let visibility = this.visiblityGridMaker()
 
     this.setState({
-      grid: mineField
+      grid: mineField,
+      visibilityGrid: visibility,
     })
   }
 
@@ -69,8 +73,6 @@ class Grid extends Component {
     }
     return grid
   }
-
-
   tileCounter(y,x,grid){
     let result = 0
     result += this.tileChecker(y-1,x-1,grid)
@@ -88,7 +90,6 @@ class Grid extends Component {
       return result.toString()
     }
   }
-
   tileChecker(y,x,grid){
     if (this.outOfBoundsCheck(y,x)){
       if (grid[y][x] === "*"){
@@ -97,7 +98,6 @@ class Grid extends Component {
     }
     return 0
   }
-
   outOfBoundsCheck(y,x){
     if (y < 0 || x < 0 || y >= this.state.height || x >= this.state.width){
       return false
@@ -105,6 +105,18 @@ class Grid extends Component {
     else{
       return true
     }
+  }
+
+  visiblityGridMaker(){
+    let result = []
+    let row = []
+    for(let i = 0;i<this.state.width;i++){
+      row.push(0)
+    }
+    for(let i = 0;i<this.state.height;i++){
+      result.push(row)
+    }
+    return result
   }
 
   //copypasta'd, fisher-yates shuffle
@@ -128,12 +140,12 @@ class Grid extends Component {
 
   displayGrid(){
     return(<table className="grid">
-    <tbody>
+      <tbody>
       {this.state.grid.map((i,indexI) => {
         return(
           <tr>
             {i.map((j,indexJ) => {
-              let a = this.state.grid[indexI][indexJ]
+              let a = this.state.visibilityGrid[indexI][indexJ] === 0 ? null : this.state.grid[indexI][indexJ]
               return(
                 <Tile content={a}/>
               )
@@ -142,7 +154,7 @@ class Grid extends Component {
         )
       })}
 
-</tbody>
+      </tbody>
     </table>)
   }
 
