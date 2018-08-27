@@ -14,9 +14,9 @@ class Tile extends Component {
 
   render() {
     return (
-      <div className="tile">
-        "hi"
-      </div>
+      <td className="tile">
+        {this.props.content}
+      </td>
     );
   }
 }

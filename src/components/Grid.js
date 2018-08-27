@@ -7,8 +7,8 @@ class Grid extends Component {
     super(props)
 
     this.state={
-      height: 5,
-      width: 5,
+      height: 10,
+      width: 10,
       mines: 14,
       grid: []
     }
@@ -18,9 +18,24 @@ class Grid extends Component {
   //   this.gridMaker()
   // }
 
+  componentDidMount(){
+    this.gridMaker()
+  }
+
   gridMaker(){
+    //lays mines/empties
+    let mineField = this.mineLayer()
+    //lays numbers on empties
+    mineField = this.numberLayer(mineField)
+
+    this.setState({
+      grid: mineField
+    })
+  }
+
+  mineLayer(){
     let workingArray = [] //array to work on
-    let result = [] //array to push to state
+    let result = []
     let empties = (this.state.height * this.state.width) - this.state.mines //empty squares
     //makes mines
     for(let i = 0; i < this.state.mines; i++){
@@ -33,27 +48,26 @@ class Grid extends Component {
     //shuffle board, mixes mines and empties
     workingArray = this.shuffle(workingArray)
 
+    // creates board, changes from 1d to 2d
     for(let i = 0; i < this.state.height; i++){
       let curVal = (this.state.height * (i+1))
       let temp = workingArray.slice(curVal - this.state.height, curVal)
       result.push(temp)
     }
 
-    console.log(result)
-    this.numberLayer(result)
+    return result
   }
 
   numberLayer(grid){
-    console.log(grid)
+    //loop through the grid, if empty(unmined), then set the number for it
     for(let y = 0; y < this.state.height; y++){
       for(let x = 0; x < this.state.width; x++){
-        console.log(y)
         if(grid[y][x] === " "){
           grid[y][x] = this.tileCounter(y,x,grid)
         }
       }
     }
-    console.log(grid)
+    return grid
   }
 
 
@@ -93,9 +107,7 @@ class Grid extends Component {
     }
   }
 
-
-
-  //copypasta'd
+  //copypasta'd, fisher-yates shuffle
   shuffle(array) {
     var m = array.length, t, i;
 
@@ -114,30 +126,32 @@ class Grid extends Component {
     return array;
   }
 
-  // rowMaker(y){
-  //   let result = []
-  //   for(let x = 0; x < this.state.width; x++){
-  //     result.push(this.mineGenerator())
-  //   }
-  //   return result
-  // }
-  //
-  // mineGenerator(){
-  //   let size = this.state.height * this.state.width
-  //   let chance = this.state.mines / size //probability is a spelling liability
-  //   if (Math.random() < chance){
-  //     return "*"
-  //   }
-  //   else{
-  //     return " "
-  //   }
-  // }
+  displayGrid(){
+    return(<table className="grid">
+    <tbody>
+      {this.state.grid.map((i,indexI) => {
+        return(
+          <tr>
+            {i.map((j,indexJ) => {
+              let a = this.state.grid[indexI][indexJ]
+              return(
+                <Tile content={a}/>
+              )
+            })}
+          </tr>
+        )
+      })}
+
+</tbody>
+    </table>)
+  }
+
+
 
 
 
   render() {
-    this.gridMaker()
-    return <p>hi</p>
+    return this.displayGrid()
   }
 }
 
