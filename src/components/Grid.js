@@ -14,9 +14,9 @@ class Grid extends Component {
     }
   }
 
-  shouldComponentUpdate(){
-    this.gridMaker()
-  }
+  // shouldComponentUpdate(){
+  //   this.gridMaker()
+  // }
 
   gridMaker(){
     let workingArray = [] //array to work on
@@ -40,24 +40,34 @@ class Grid extends Component {
     }
 
     console.log(result)
+    this.numberLayer(result)
   }
 
-  numberLayer(){
-
+  numberLayer(grid){
+    console.log(grid)
+    for(let y = 0; y < this.state.height; y++){
+      for(let x = 0; x < this.state.width; x++){
+        console.log(y)
+        if(grid[y][x] === " "){
+          grid[y][x] = this.tileCounter(y,x,grid)
+        }
+      }
+    }
+    console.log(grid)
   }
 
 
-  tileCounter(y,x){
+  tileCounter(y,x,grid){
     let result = 0
-    result += this.tileChecker(y-1,x-1)
-    result += this.tileChecker(y-1,x)
-    result += this.tileChecker(y-1,x+1)
-    result += this.tileChecker(y,x-1)
-    result += this.tileChecker(y,x+1)
-    result += this.tileChecker(y+1,x-1)
-    result += this.tileChecker(y+1,x)
-    result += this.tileChecker(y+1,x+1)
-    if(result == 0){
+    result += this.tileChecker(y-1,x-1,grid)
+    result += this.tileChecker(y-1,x,grid)
+    result += this.tileChecker(y-1,x+1,grid)
+    result += this.tileChecker(y,x-1,grid)
+    result += this.tileChecker(y,x+1,grid)
+    result += this.tileChecker(y+1,x-1,grid)
+    result += this.tileChecker(y+1,x,grid)
+    result += this.tileChecker(y+1,x+1,grid)
+    if(result === 0){
       return " "
     }
     else{
@@ -65,18 +75,13 @@ class Grid extends Component {
     }
   }
 
-  tileChecker(y,x,counter){
+  tileChecker(y,x,grid){
     if (this.outOfBoundsCheck(y,x)){
-      if (this.state.grid[y][x] == "*"){
+      if (grid[y][x] === "*"){
         return 1
       }
-      else{
-        return 0
-      }
     }
-    else{
-      return 0
-    }
+    return 0
   }
 
   outOfBoundsCheck(y,x){
