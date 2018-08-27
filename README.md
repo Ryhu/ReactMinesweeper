@@ -34,3 +34,19 @@ make 1d array, height x width long. first x slots are mines, x =  # of mines. ar
 shuffle = fisher-yates
 
 going with easier one atm, just for ...why not
+
+once the array is done, putting it in the components isnt hard.
+
+just did...react stuff, and I had the basic fully revealed board in an ugly coloring on the page.
+
+next step is to cover it, which i can do one of two ways:
+1: have a separate array to do visibility, an array of 1's and 0's -  easiest
+2: do a double array of the original
+3: double up and have everything in the first array contain 2 things, the value and 1/0, like "50"
+
+i think im going to have 2 separate arrays to save time and sanity. readability over performance this time
+
+visibilityGrid is installed, moving on to clickable functionality
+clickable will change the visibility from 0 to 1, making it not-zero, and making it visible.
+
+clicking a tile should trigger an event that targets that tile, pulls info, and use that info to change state. therefore, i'll put an id on every square for info to be pulled.

@@ -147,7 +147,7 @@ class Grid extends Component {
             {i.map((j,indexJ) => {
               let a = this.state.visibilityGrid[indexI][indexJ] === 0 ? null : this.state.grid[indexI][indexJ]
               return(
-                <Tile content={a}/>
+                <Tile content={a} coords={"" + indexI + indexJ}/>
               )
             })}
           </tr>
