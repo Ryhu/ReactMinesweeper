@@ -32,3 +32,5 @@ Only after the array is done will it be rendered.
 
 make 1d array, height x width long. first x slots are mines, x =  # of mines. array is then shuffled and cut into 2x array
 shuffle = fisher-yates
+
+going with easier one atm, just for ...why not

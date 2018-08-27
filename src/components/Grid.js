@@ -42,6 +42,52 @@ class Grid extends Component {
     console.log(result)
   }
 
+  numberLayer(){
+
+  }
+
+
+  tileCounter(y,x){
+    let result = 0
+    result += this.tileChecker(y-1,x-1)
+    result += this.tileChecker(y-1,x)
+    result += this.tileChecker(y-1,x+1)
+    result += this.tileChecker(y,x-1)
+    result += this.tileChecker(y,x+1)
+    result += this.tileChecker(y+1,x-1)
+    result += this.tileChecker(y+1,x)
+    result += this.tileChecker(y+1,x+1)
+    if(result == 0){
+      return " "
+    }
+    else{
+      return result.toString()
+    }
+  }
+
+  tileChecker(y,x,counter){
+    if (this.outOfBoundsCheck(y,x)){
+      if (this.state.grid[y][x] == "*"){
+        return 1
+      }
+      else{
+        return 0
+      }
+    }
+    else{
+      return 0
+    }
+  }
+
+  outOfBoundsCheck(y,x){
+    if (y < 0 || x < 0 || y >= this.state.height || x >= this.state.width){
+      return false
+    }
+    else{
+      return true
+    }
+  }
+
 
 
   //copypasta'd
