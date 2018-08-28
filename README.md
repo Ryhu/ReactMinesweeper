@@ -77,3 +77,6 @@ on second thought, it sounds like a memory nightmare at higher scales
 going back to bruteforce, sounds the simplest
 
 bruteforce done, all adj blanks are revealed upon click, now to show adj numbers
+
+next is to add mining functionality, to mark mines.
+you can only mark a tile that is visiblity 0 

@@ -186,10 +186,10 @@ class Grid extends Component {
     if(vis[y][x] === "Mine!"){
       vis[y][x] = 0
     }
-    else{
+    else if(vis[y][x] === 0){
       vis[y][x] = "Mine!"
     }
-    
+
     this.setState({
       visibilityGrid: vis
     })
