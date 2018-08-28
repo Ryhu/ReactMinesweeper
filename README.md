@@ -50,3 +50,27 @@ visibilityGrid is installed, moving on to clickable functionality
 clickable will change the visibility from 0 to 1, making it not-zero, and making it visible.
 
 clicking a tile should trigger an event that targets that tile, pulls info, and use that info to change state. therefore, i'll put an id on every square for info to be pulled.
+
+once the id is put on, the click action needs to be installed.
+click action is pulled down from the parent grid into the child tile, and when tile is clicked,
+the parent updates it's visibility grid in the state, and tile is shown.
+
+after that, its on to the blank square explosions- blank squares trigger other adjacent
+blank squares to reveal, chaining.
+
+brute force is simple, write a fucntion for one sqaure to check it's adjacent, and call it recursively
+problem is that there will be multiple false positives, squares that were already checked
+solution...queue?
+click first square, all valid adj goes into the queue, then if queue is not empty, queue gets popped, and that square
+gets checked, all valid adj gets checked: is it in the queue? if yes, nothing, if no, goes into queue
+
+or
+
+copy the state into a variable so i dont have to deal with it, and do the brute force
+
+or
+
+queue solution, on each blank square, run the function and call function on all the valid children. instead of handling them, we'll just throw them all into an array, and then once all the functions are done and we have a massive array, just do a unique filter, and then flip all remaining
+
+that last one sounds the most bug free, so im going with that one
+on second thought, it sounds like a memory nightmare at higher scales

@@ -101,6 +101,7 @@ class Grid extends Component {
     return 0
   }
   outOfBoundsCheck(y,x){
+    //passing = true
     //checks if tile is within bounds
     if (y < 0 || x < 0 || y >= this.state.height || x >= this.state.width){
       return false
@@ -160,10 +161,41 @@ class Grid extends Component {
   tileClick = (y,x) => {
     let vis = this.state.visibilityGrid
     vis[y][x] = 1
-    console.log(this.state.visibilityGrid)
     this.setState({
       visibilityGrid: vis
     })
+    if(this.state.grid[y][x] === " "){
+      this.blankHandler(parseInt(y),parseInt(x))
+    }
+  }
+
+  blankHandler(y,x){
+  //call blank explosion on selected tile, will store and then reveal an array of blanks if applicable
+    let visgrid = Object.assign({}, this.state.visibilityGrid)
+    this.blankExplosion(y,x,visgrid)
+    this.setState({
+      visibilityGrid: visgrid
+    })
+  }
+  blankExplosion(y,x,visgrid){
+    this.blankCheck(y-1,x-1,visgrid)
+    this.blankCheck(y-1,x,visgrid)
+    this.blankCheck(y-1,x+1,visgrid)
+    this.blankCheck(y,x-1,visgrid)
+    this.blankCheck(y,x+1,visgrid)
+    this.blankCheck(y+1,x-1,visgrid)
+    this.blankCheck(y+1,x,visgrid)
+    this.blankCheck(y+1,x+1,visgrid)
+  }
+
+  blankCheck(y,x,visgrid){
+    //if within bounds
+    if (this.outOfBoundsCheck(y,x)){
+      if(this.state.visibilityGrid[y][x] === 0 && this.state.grid[y][x] === " "){
+        visgrid[y][x] = 1
+        this.blankExplosion(y,x,visgrid)
+      }
+    }
   }
 
 
