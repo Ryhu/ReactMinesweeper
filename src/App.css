@@ -32,8 +32,12 @@
 .tile{
   height:100px;
   width:100px;
-  background-color:blue;
+  background-color:white;
   border-style: solid;
   border-color:black;
   margin:auto;
+}
+
+.hidden{
+  background-color:gray;
 }

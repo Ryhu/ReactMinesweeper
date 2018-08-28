@@ -74,6 +74,7 @@ class Grid extends Component {
     return grid
   }
   tileCounter(y,x,grid){
+    //checks all 8 surrounding tiles
     let result = 0
     result += this.tileChecker(y-1,x-1,grid)
     result += this.tileChecker(y-1,x,grid)
@@ -91,6 +92,7 @@ class Grid extends Component {
     }
   }
   tileChecker(y,x,grid){
+    //checks a single tile
     if (this.outOfBoundsCheck(y,x)){
       if (grid[y][x] === "*"){
         return 1
@@ -99,6 +101,7 @@ class Grid extends Component {
     return 0
   }
   outOfBoundsCheck(y,x){
+    //checks if tile is within bounds
     if (y < 0 || x < 0 || y >= this.state.height || x >= this.state.width){
       return false
     }
@@ -108,30 +111,26 @@ class Grid extends Component {
   }
 
   visiblityGridMaker(){
+    // makes the grid that stores visibility status
     let result = []
     let row = []
     for(let i = 0;i<this.state.width;i++){
       row.push(0)
     }
     for(let i = 0;i<this.state.height;i++){
-      result.push(row)
+      let newRow = Object.assign({},row)
+      result.push(newRow)
     }
     return result
   }
 
-  //copypasta'd, fisher-yates shuffle
+  //fisher-yates shuffle
   shuffle(array) {
-    var m = array.length, t, i;
-
-    // While there remain elements to shuffle…
-    while (m) {
-
-      // Pick a remaining element…
-      i = Math.floor(Math.random() * m--);
-
-      // And swap it with the current element.
-      t = array[m];
-      array[m] = array[i];
+    let length = array.length, t, i;
+    while (length) {
+      i = Math.floor(Math.random() * length--);
+      t = array[length];
+      array[length] = array[i];
       array[i] = t;
     }
 
@@ -147,7 +146,7 @@ class Grid extends Component {
             {i.map((j,indexJ) => {
               let a = this.state.visibilityGrid[indexI][indexJ] === 0 ? null : this.state.grid[indexI][indexJ]
               return(
-                <Tile content={a} coords={"" + indexI + indexJ}/>
+                <Tile content={a} coords={"" + indexI + indexJ} action={this.tileClick}/>
               )
             })}
           </tr>
@@ -156,6 +155,15 @@ class Grid extends Component {
 
       </tbody>
     </table>)
+  }
+
+  tileClick = (y,x) => {
+    let vis = this.state.visibilityGrid
+    vis[y][x] = 1
+    console.log(this.state.visibilityGrid)
+    this.setState({
+      visibilityGrid: vis
+    })
   }
 
 
