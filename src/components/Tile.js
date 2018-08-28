@@ -11,17 +11,18 @@ class Tile extends Component {
     }
   }
 
-  clicked = () => {
-    this.props.action(this.props.coords[0],this.props.coords[1])
+  clicked = (e) => {
+    e.preventDefault()
+    this.props.action(this.props.coords[0],this.props.coords[1],e.type)
   }
 
 
 
 
   render() {
-    let name = this.props.content === null ? "tile hidden" : "tile"
+    let name = (this.props.content === null || this.props.content === "Mine!") ? "tile hidden" : "tile"
     return (
-      <td className={name} id={this.props.coords} onClick={() => this.clicked()}>
+      <td className={name} id={this.props.coords} onClick={(e) => this.clicked(e)} onContextMenu={(e) => this.clicked(e)}>
         {this.props.content}
       </td>
     );

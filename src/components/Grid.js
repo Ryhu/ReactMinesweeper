@@ -146,6 +146,9 @@ class Grid extends Component {
           <tr>
             {i.map((j,indexJ) => {
               let a = this.state.visibilityGrid[indexI][indexJ] === 0 ? null : this.state.grid[indexI][indexJ]
+              if (this.state.visibilityGrid[indexI][indexJ] === "Mine!"){
+                a = "Mine!"
+              }
               return(
                 <Tile content={a} coords={"" + indexI + indexJ} action={this.tileClick}/>
               )
@@ -158,7 +161,16 @@ class Grid extends Component {
     </table>)
   }
 
-  tileClick = (y,x) => {
+
+  tileClick = (y,x,type) => {
+    if(type === "click"){
+      this.tileLeftClick(y,x)
+    }
+    else if(type === "contextmenu"){
+      this.tileRightClick(y,x)
+    }
+  }
+  tileLeftClick(y,x){
     let vis = this.state.visibilityGrid
     vis[y][x] = 1
     this.setState({
@@ -167,6 +179,20 @@ class Grid extends Component {
     if(this.state.grid[y][x] === " "){
       this.blankHandler(parseInt(y),parseInt(x))
     }
+  }
+  tileRightClick(y,x){
+    let vis = this.state.visibilityGrid
+
+    if(vis[y][x] === "Mine!"){
+      vis[y][x] = 0
+    }
+    else{
+      vis[y][x] = "Mine!"
+    }
+    
+    this.setState({
+      visibilityGrid: vis
+    })
   }
 
   blankHandler(y,x){
@@ -178,6 +204,7 @@ class Grid extends Component {
     })
   }
   blankExplosion(y,x,visgrid){
+    //checks all surrounding tiles for validity
     this.blankCheck(y-1,x-1,visgrid)
     this.blankCheck(y-1,x,visgrid)
     this.blankCheck(y-1,x+1,visgrid)
@@ -187,12 +214,13 @@ class Grid extends Component {
     this.blankCheck(y+1,x,visgrid)
     this.blankCheck(y+1,x+1,visgrid)
   }
-
   blankCheck(y,x,visgrid){
     //if within bounds
     if (this.outOfBoundsCheck(y,x)){
       if(this.state.visibilityGrid[y][x] === 0){
+        //sets numbers and blanks to visible
         visgrid[y][x] = 1
+        //if blank, continue explosion
         if(this.state.grid[y][x] === " "){
           this.blankExplosion(y,x,visgrid)
         }
