@@ -74,3 +74,6 @@ queue solution, on each blank square, run the function and call function on all 
 
 that last one sounds the most bug free, so im going with that one
 on second thought, it sounds like a memory nightmare at higher scales
+going back to bruteforce, sounds the simplest
+
+bruteforce done, all adj blanks are revealed upon click, now to show adj numbers

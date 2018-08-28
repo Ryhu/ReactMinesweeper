@@ -191,9 +191,11 @@ class Grid extends Component {
   blankCheck(y,x,visgrid){
     //if within bounds
     if (this.outOfBoundsCheck(y,x)){
-      if(this.state.visibilityGrid[y][x] === 0 && this.state.grid[y][x] === " "){
+      if(this.state.visibilityGrid[y][x] === 0){
         visgrid[y][x] = 1
-        this.blankExplosion(y,x,visgrid)
+        if(this.state.grid[y][x] === " "){
+          this.blankExplosion(y,x,visgrid)
+        }
       }
     }
   }
