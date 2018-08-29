@@ -138,29 +138,6 @@ class Grid extends Component {
     return array;
   }
 
-  displayGrid(){
-    return(<table className="grid">
-      <tbody>
-      {this.state.grid.map((i,indexI) => {
-        return(
-          <tr>
-            {i.map((j,indexJ) => {
-              let a = this.state.visibilityGrid[indexI][indexJ] === 0 ? null : this.state.grid[indexI][indexJ]
-              if (this.state.visibilityGrid[indexI][indexJ] === "Mine!"){
-                a = "Mine!"
-              }
-              return(
-                <Tile content={a} coords={"" + indexI + indexJ} action={this.tileClick}/>
-              )
-            })}
-          </tr>
-        )
-      })}
-
-      </tbody>
-    </table>)
-  }
-
 
   tileClick = (y,x,type) => {
     if(type === "click"){
@@ -226,6 +203,34 @@ class Grid extends Component {
         }
       }
     }
+  }
+
+  reset(){
+    this.gridMaker()
+  }
+
+  displayGrid(){
+    return(<table className="grid">
+      <tbody>
+      {this.state.grid.map((i,indexI) => {
+        return(
+          <tr>
+            {i.map((j,indexJ) => {
+              let a = this.state.visibilityGrid[indexI][indexJ] === 0 ? null : this.state.grid[indexI][indexJ]
+              if (this.state.visibilityGrid[indexI][indexJ] === "Mine!"){
+                a = "Mine!"
+              }
+              return(
+                <Tile content={a} coords={"" + indexI + indexJ} action={this.tileClick}/>
+              )
+            })}
+          </tr>
+        )
+      })}
+
+      </tbody>
+      <button onClick={() => this.reset()}>reset</button>
+    </table>)
   }
 
 
