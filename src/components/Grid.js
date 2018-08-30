@@ -152,15 +152,25 @@ class Grid extends Component {
   tileLeftClick(y,x){
     let vis = this.state.visibilityGrid
     if (vis[y][x] === 0 ){
+      //lose condition
+      if(this.state.grid[y][x] === "*"){
+        this.lose()
+      }
+
+
+
+      //if blank
       if(this.state.grid[y][x] === " "){
         this.blankHandler(parseInt(y),parseInt(x))
       }
+
+      //normal conditions
       else{
         vis[y][x] = 1
         this.setState({
           visibilityGrid: vis,
           tilesLeft: this.state.tilesLeft - 1
-        })
+        },this.winCheck)
       }
     }
   }
@@ -192,7 +202,7 @@ class Grid extends Component {
     this.setState({
       visibilityGrid: visgrid,
       tilesLeft: this.state.tilesLeft - counter[0]
-    })
+    },this.winCheck)
   }
   blankExplosion(y,x,visgrid,counter){
     //checks all surrounding tiles for validity
@@ -219,6 +229,21 @@ class Grid extends Component {
       }
     }
   }
+
+  winCheck(){
+    if(this.state.tilesLeft === 0){
+      this.win()
+    }
+  }
+
+  win(){
+    alert("you win!")
+  }
+
+  lose(){
+    alert("boom! you lose")
+  }
+
 
   reset(){
     alert(this.state.tilesLeft)
