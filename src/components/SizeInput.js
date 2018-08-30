@@ -25,6 +25,12 @@ class SizeInput extends Component {
     this.props.action(this.state.boardHeight, this.state.boardWidth, this.state.mines)
   }
 
+  preSet(height,width,mines){
+    this.props.action(height,width,mines)
+  }
+
+
+
 
   render() {
     return (
@@ -33,6 +39,10 @@ class SizeInput extends Component {
         Board Width<input type="number" name="boardWidth" onChange={this.setInput}></input><br /><br />
         Mines<input type="number" name="mines" onChange={this.setInput}></input><br /><br />
         <input type="submit"></input>
+
+        <button onClick={() => this.preSet(9,9,10)}>Beginner</button>
+        <button onClick={() => this.preSet(16,16,40)}>Intermediate</button>
+        <button onClick={() => this.preSet(16,30,99)}>Expert</button>
       </form>
     );
   }

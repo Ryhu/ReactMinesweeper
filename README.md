@@ -103,3 +103,10 @@ case - last mine marked - user has clicked all the correct tiles, but no mines m
 turns out that there is only one trigger condition, and marked mines dont actually mean a thing other than
 to mark which squares to not touch. in that regard, the counter in state should be # of uncovered squares remaining,
 and which would win at uncovered squares === mines
+
+ok, so i cheated a little. I was looking for minesweeper default difficulty levels on the minesweeper site, and i
+found the trick for doing the first move, in which they, the microsoft version, moved the first mine to the topright
+most square, forcing the first move to be mine free. Ive had much, much stupider versions of doing what they did,
+my idea was to generate a random number of blanks from 1 to total blanks/4. After that, generate a blob of blanks on the grid and then fill in mines and remaining blanks. the microsoft way makes it...less random because that one displaced mine will always go to right, but hell if it isnt more efficient by far. And most people wouldnt notice!
+
+board seems to break on double digits

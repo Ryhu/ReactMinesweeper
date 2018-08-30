@@ -40,7 +40,7 @@ class Grid extends Component {
     let empties = (this.props.height * this.props.width) - this.props.mines //empty squares
     //makes mines
     for(let i = 0; i < this.props.mines; i++){
-      workingArray.push("BOOM!")
+      workingArray.push("*")
     }
     //makes empties
     for(let i = 0; i < empties; i++){
@@ -91,7 +91,7 @@ class Grid extends Component {
   tileChecker(y,x,grid){
     //checks a single tile
     if (this.outOfBoundsCheck(y,x)){
-      if (grid[y][x] === "BOOM!"){
+      if (grid[y][x] === "*"){
         return 1
       }
     }
@@ -152,7 +152,7 @@ class Grid extends Component {
     let vis = this.state.visibilityGrid
     if (vis[y][x] === 0 ){
       //lose condition
-      if(this.state.grid[y][x] === "BOOM!"){
+      if(this.state.grid[y][x] === "*"){
         this.lose()
       }
 
@@ -176,11 +176,11 @@ class Grid extends Component {
   tileRightClick(y,x){
     let vis = this.state.visibilityGrid
 
-    if(vis[y][x] === "Mine!"){
+    if(vis[y][x] === "P"){
       vis[y][x] = 0
     }
     else if(vis[y][x] === 0){
-      vis[y][x] = "Mine!"
+      vis[y][x] = "P"
     }
 
     this.setState({
@@ -244,7 +244,7 @@ class Grid extends Component {
   lose(){
     //the delay allows the render to happen
     setTimeout(function(){
-      alert("boom! you lose")
+      alert(" you lose")
     },200)
   }
 
@@ -255,18 +255,19 @@ class Grid extends Component {
   }
 
   displayGrid(){
-    return(<table id="grid">
+    return(<div id="grid">
+      <table>
       <tbody>
       {this.state.grid.map((i,indexI) => {
         return(
           <tr>
             {i.map((j,indexJ) => {
               let a = this.state.visibilityGrid[indexI][indexJ] === 0 ? null : this.state.grid[indexI][indexJ]
-              if (this.state.visibilityGrid[indexI][indexJ] === "Mine!"){
-                a = "Mine!"
+              if (this.state.visibilityGrid[indexI][indexJ] === "P"){
+                a = "P"
               }
               return(
-                <Tile content={a} coords={"" + indexI + indexJ} action={this.tileClick}/>
+                <Tile content={a} coords={indexI + ":" + indexJ} action={this.tileClick}/>
               )
             })}
           </tr>
@@ -274,8 +275,9 @@ class Grid extends Component {
       })}
 
       </tbody>
-      <button id="resetButton" onClick={() => this.reset()}>back to input</button>
-    </table>)
+    </table>
+    <button id="resetButton" onClick={() => this.reset()}>back to input</button>
+    </div>)
   }
 
 
