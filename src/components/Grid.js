@@ -151,14 +151,16 @@ class Grid extends Component {
   }
   tileLeftClick(y,x){
     let vis = this.state.visibilityGrid
-    if (vis[y][x] === "0" ){
-      vis[y][x] = 1
-      this.setState({
-        visibilityGrid: vis,
-        tilesLeft: this.state.tilesLeft - 1
-      })
+    if (vis[y][x] === 0 ){
       if(this.state.grid[y][x] === " "){
         this.blankHandler(parseInt(y),parseInt(x))
+      }
+      else{
+        vis[y][x] = 1
+        this.setState({
+          visibilityGrid: vis,
+          tilesLeft: this.state.tilesLeft - 1
+        })
       }
     }
   }
@@ -176,7 +178,6 @@ class Grid extends Component {
       visibilityGrid: vis,
     })
   }
-
   ///^^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   ///^^^^^^^^^^^^^^^^^^^^ Click Handler ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
   ///^^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -184,39 +185,43 @@ class Grid extends Component {
   blankHandler(y,x){
   //call blank explosion on selected tile, will store and then reveal an array of blanks if applicable
     let visgrid = Object.assign({}, this.state.visibilityGrid)
-
-    this.blankExplosion(y,x,visgrid)
+    //creates a counter, and sets the clicked blank to visible, and puts the first blank in the counter
+    let counter = [1]
+    visgrid[y][x] = 1
+    this.blankExplosion(y,x,visgrid,counter)
     this.setState({
-      visibilityGrid: visgrid
+      visibilityGrid: visgrid,
+      tilesLeft: this.state.tilesLeft - counter[0]
     })
   }
-  blankExplosion(y,x,visgrid){
+  blankExplosion(y,x,visgrid,counter){
     //checks all surrounding tiles for validity
-    this.blankCheck(y-1,x-1,visgrid)
-    this.blankCheck(y-1,x,visgrid)
-    this.blankCheck(y-1,x+1,visgrid)
-    this.blankCheck(y,x-1,visgrid)
-    this.blankCheck(y,x+1,visgrid)
-    this.blankCheck(y+1,x-1,visgrid)
-    this.blankCheck(y+1,x,visgrid)
-    this.blankCheck(y+1,x+1,visgrid)
+    this.blankCheck(y-1,x-1,visgrid,counter)
+    this.blankCheck(y-1,x,visgrid,counter)
+    this.blankCheck(y-1,x+1,visgrid,counter)
+    this.blankCheck(y,x-1,visgrid,counter)
+    this.blankCheck(y,x+1,visgrid,counter)
+    this.blankCheck(y+1,x-1,visgrid,counter)
+    this.blankCheck(y+1,x,visgrid,counter)
+    this.blankCheck(y+1,x+1,visgrid,counter)
   }
-  blankCheck(y,x,visgrid){
+  blankCheck(y,x,visgrid,counter){
     //if within bounds
     if (this.outOfBoundsCheck(y,x)){
       if(this.state.visibilityGrid[y][x] === 0){
-        //sets non marked tile to visible
+        //sets non marked tile to visible, increments counter
         visgrid[y][x] = 1
+        counter[0]++
         //if blank, continue explosion
         if(this.state.grid[y][x] === " "){
-          this.blankExplosion(y,x,visgrid)
+          this.blankExplosion(y,x,visgrid,counter)
         }
       }
     }
   }
 
   reset(){
-    this.gridMaker()
+    alert(this.state.tilesLeft)
   }
 
   displayGrid(){
