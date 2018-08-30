@@ -17,6 +17,14 @@ class Grid extends Component {
     this.gridMaker()
   }
 
+  starterGridMaker(){
+    let visibility = this.visiblityGridMaker()
+    this.setState({
+      grid: visibility,
+      visibilityGrid: visibility,
+    })
+  }
+
   gridMaker(){
     //lays mines/empties
     let mineField = this.mineLayer()
@@ -51,8 +59,8 @@ class Grid extends Component {
 
     // creates board, changes from 1d to 2d
     for(let i = 0; i < this.props.height; i++){
-      let curVal = (this.props.height * (i+1))
-      let temp = workingArray.slice(curVal - this.props.height, curVal)
+      let curVal = (this.props.width * (i+1))
+      let temp = workingArray.slice(curVal - this.props.width, curVal)
       result.push(temp)
     }
 
@@ -250,13 +258,14 @@ class Grid extends Component {
 
 
   reset(){
-    this.props.reset()
+    // this.props.reset()
+    //debugger
     //alert(this.state.tilesLeft)
   }
 
   displayGrid(){
-    return(<div id="grid">
-      <table>
+    return(<div>
+      <table id="grid">
       <tbody>
       {this.state.grid.map((i,indexI) => {
         return(
