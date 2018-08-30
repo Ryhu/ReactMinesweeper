@@ -145,12 +145,14 @@ class Grid extends Component {
   }
   tileLeftClick(y,x){
     let vis = this.state.visibilityGrid
-    vis[y][x] = 1
-    this.setState({
-      visibilityGrid: vis
-    })
-    if(this.state.grid[y][x] === " "){
-      this.blankHandler(parseInt(y),parseInt(x))
+    if (vis[y][x] !== "Mine!"){
+      vis[y][x] = 1
+      this.setState({
+        visibilityGrid: vis
+      })
+      if(this.state.grid[y][x] === " "){
+        this.blankHandler(parseInt(y),parseInt(x))
+      }
     }
   }
   tileRightClick(y,x){
