@@ -79,4 +79,27 @@ going back to bruteforce, sounds the simplest
 bruteforce done, all adj blanks are revealed upon click, now to show adj numbers
 
 next is to add mining functionality, to mark mines.
-you can only mark a tile that is visiblity 0 
+you can only mark a tile that is visiblity 0.
+
+Then, for ease of play, make marked tiles non-clickable, need to unmark with mark button
+
+now that the game is playable, win conditions are next.
+win condition = all tiles are visible, with "mined!" === mines
+
+For efficiency, so that the code doesnt have to run through the entire array every single time, the number of currently
+marked mines is saved in state, upon right click (mine marking button). Because of this, on every click,
+the first check is done is mines === markedmines, which should not pass until the end of the game (theoretically).
+Even in cases where this is made to fail (person marks mine mines first), it would only slow down the game...slightly? depending on scale.
+so best case scenario - most common use case - cuts alot of needless runtime
+worst case scenario - everything works as normal, just potentially slower
+
+win trigger condition - last uncovered square is clicked OR last mine marked
+
+case - last square clicked - user marks all the correct mines, but there are still unrevealed squares. user clicks the
+rest of them, and they are revealed, allowing user to win
+
+case - last mine marked - user has clicked all the correct tiles, but no mines marked.....
+
+turns out that there is only one trigger condition, and marked mines dont actually mean a thing other than
+to mark which squares to not touch. in that regard, the counter in state should be # of uncovered squares remaining,
+and which would win at uncovered squares === mines
