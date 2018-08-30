@@ -7,9 +7,6 @@ class Grid extends Component {
     super(props)
 
     this.state={
-      height: 10,
-      width: 10,
-      mines: 14,
       tilesLeft: 0,
       grid: [],
       visibilityGrid: [],
@@ -43,7 +40,7 @@ class Grid extends Component {
     let empties = (this.props.height * this.props.width) - this.props.mines //empty squares
     //makes mines
     for(let i = 0; i < this.props.mines; i++){
-      workingArray.push("*")
+      workingArray.push("BOOM!")
     }
     //makes empties
     for(let i = 0; i < empties; i++){
@@ -94,7 +91,7 @@ class Grid extends Component {
   tileChecker(y,x,grid){
     //checks a single tile
     if (this.outOfBoundsCheck(y,x)){
-      if (grid[y][x] === "*"){
+      if (grid[y][x] === "BOOM!"){
         return 1
       }
     }
@@ -127,14 +124,16 @@ class Grid extends Component {
 
   //fisher-yates shuffle
   shuffle(array) {
-    let length = array.length, t, i;
+    let length = array.length
+    let random = 0
+    let temp = 0
     while (length) {
-      i = Math.floor(Math.random() * length--);
-      t = array[length];
-      array[length] = array[i];
-      array[i] = t;
+      random = Math.floor(Math.random() * length);
+      temp = array[length];
+      array[length] = array[random];
+      array[random] = temp;
+      length--
     }
-
     return array;
   }
 
@@ -153,7 +152,7 @@ class Grid extends Component {
     let vis = this.state.visibilityGrid
     if (vis[y][x] === 0 ){
       //lose condition
-      if(this.state.grid[y][x] === "*"){
+      if(this.state.grid[y][x] === "BOOM!"){
         this.lose()
       }
 
@@ -237,20 +236,26 @@ class Grid extends Component {
   }
 
   win(){
-    alert("you win!")
+    setTimeout(function(){
+      alert("you win!")
+    },200)
   }
 
   lose(){
-    alert("boom! you lose")
+    //the delay allows the render to happen
+    setTimeout(function(){
+      alert("boom! you lose")
+    },200)
   }
 
 
   reset(){
-    alert(this.state.tilesLeft)
+    this.props.reset()
+    //alert(this.state.tilesLeft)
   }
 
   displayGrid(){
-    return(<table className="grid">
+    return(<table id="grid">
       <tbody>
       {this.state.grid.map((i,indexI) => {
         return(
@@ -269,7 +274,7 @@ class Grid extends Component {
       })}
 
       </tbody>
-      <button onClick={() => this.reset()}>reset current game</button>
+      <button id="resetButton" onClick={() => this.reset()}>back to input</button>
     </table>)
   }
 

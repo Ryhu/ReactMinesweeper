@@ -28,6 +28,12 @@
 }
 
 
+#grid{
+  margin:auto;
+}
+#resetButton{
+  margin:auto;
+}
 
 .tile{
   height:50px;

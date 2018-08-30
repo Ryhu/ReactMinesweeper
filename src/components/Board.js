@@ -27,7 +27,16 @@ class Board extends Component {
   }
 
   displaySwitcher(){
-    return this.state.mines === 0 ? <SizeInput action={this.configureBoard}></SizeInput> : <Grid height={this.state.boardHeight} width={this.state.boardWidth} mines={this.state.mines}></Grid>
+    if(this.state.mines === 0){
+      return <SizeInput action={this.configureBoard}></SizeInput>
+    }
+    else{
+      return <Grid height={this.state.boardHeight}
+                   width={this.state.boardWidth}
+                   mines={this.state.mines}
+                   reset={this.reset}>
+             </Grid>
+    }
   }
 
   reset = () => {
@@ -41,7 +50,6 @@ class Board extends Component {
     return (
       <div className="Board">
         {this.displaySwitcher()}
-        <button onClick={this.reset}>true reset</button>
       </div>
     );
   }

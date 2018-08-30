@@ -32,7 +32,6 @@ class SizeInput extends Component {
         Board Height <input type="number" name="boardHeight" onChange={this.setInput}></input><br /><br />
         Board Width<input type="number" name="boardWidth" onChange={this.setInput}></input><br /><br />
         Mines<input type="number" name="mines" onChange={this.setInput}></input><br /><br />
-        {this.state.boardHeight}{this.state.boardWidth}{this.state.mines}
         <input type="submit"></input>
       </form>
     );
