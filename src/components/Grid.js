@@ -15,10 +15,6 @@ class Grid extends Component {
     }
   }
 
-  // shouldComponentUpdate(){
-  //   this.gridMaker()
-  // }
-
   componentDidMount(){
     this.gridMaker()
   }
@@ -40,9 +36,9 @@ class Grid extends Component {
   mineLayer(){
     let workingArray = [] //array to work on
     let result = []
-    let empties = (this.state.height * this.state.width) - this.state.mines //empty squares
+    let empties = (this.props.height * this.props.width) - this.props.mines //empty squares
     //makes mines
-    for(let i = 0; i < this.state.mines; i++){
+    for(let i = 0; i < this.props.mines; i++){
       workingArray.push("*")
     }
     //makes empties
@@ -53,9 +49,9 @@ class Grid extends Component {
     workingArray = this.shuffle(workingArray)
 
     // creates board, changes from 1d to 2d
-    for(let i = 0; i < this.state.height; i++){
-      let curVal = (this.state.height * (i+1))
-      let temp = workingArray.slice(curVal - this.state.height, curVal)
+    for(let i = 0; i < this.props.height; i++){
+      let curVal = (this.props.height * (i+1))
+      let temp = workingArray.slice(curVal - this.props.height, curVal)
       result.push(temp)
     }
 
@@ -64,8 +60,8 @@ class Grid extends Component {
 
   numberLayer(grid){
     //loop through the grid, if empty(unmined), then set the number for it
-    for(let y = 0; y < this.state.height; y++){
-      for(let x = 0; x < this.state.width; x++){
+    for(let y = 0; y < this.props.height; y++){
+      for(let x = 0; x < this.props.width; x++){
         if(grid[y][x] === " "){
           grid[y][x] = this.tileCounter(y,x,grid)
         }
@@ -103,7 +99,7 @@ class Grid extends Component {
   outOfBoundsCheck(y,x){
     //passing = true
     //checks if tile is within bounds
-    if (y < 0 || x < 0 || y >= this.state.height || x >= this.state.width){
+    if (y < 0 || x < 0 || y >= this.props.height || x >= this.props.width){
       return false
     }
     else{
@@ -115,10 +111,10 @@ class Grid extends Component {
     // makes the grid that stores visibility status
     let result = []
     let row = []
-    for(let i = 0;i<this.state.width;i++){
+    for(let i = 0;i<this.props.width;i++){
       row.push(0)
     }
-    for(let i = 0;i<this.state.height;i++){
+    for(let i = 0;i<this.props.height;i++){
       let newRow = Object.assign({},row)
       result.push(newRow)
     }
@@ -229,7 +225,7 @@ class Grid extends Component {
       })}
 
       </tbody>
-      <button onClick={() => this.reset()}>reset</button>
+      <button onClick={() => this.reset()}>reset current game</button>
     </table>)
   }
 

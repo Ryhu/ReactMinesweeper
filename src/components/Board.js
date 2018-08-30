@@ -14,7 +14,7 @@ class Board extends Component {
     }
   }
 
-  configureBoard(boardHeight, boardWidth, mines){
+  configureBoard = (boardHeight, boardWidth, mines) => {
     this.setState({
       boardHeight: boardHeight,
       boardWidth: boardWidth,
@@ -22,12 +22,26 @@ class Board extends Component {
     })
   }
 
+  debug(){
+    debugger
+  }
+
+  displaySwitcher(){
+    return this.state.mines === 0 ? <SizeInput action={this.configureBoard}></SizeInput> : <Grid height={this.state.boardHeight} width={this.state.boardWidth} mines={this.state.mines}></Grid>
+  }
+
+  reset = () => {
+    this.setState({
+      mines: 0
+    })
+  }
+
 
   render() {
     return (
       <div className="Board">
-        <SizeInput></SizeInput>
-        <Grid boardHeight={this.state.boardHeight} boardWidth={this.state.boardWidth} mines={this.state.mines}></Grid>
+        {this.displaySwitcher()}
+        <button onClick={this.reset}>true reset</button>
       </div>
     );
   }

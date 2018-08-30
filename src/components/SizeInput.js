@@ -22,19 +22,16 @@ class SizeInput extends Component {
 
   submit = (e) => {
     e.preventDefault()
-    alert(this.state.boardHeight)
+    this.props.action(this.state.boardHeight, this.state.boardWidth, this.state.mines)
   }
 
 
   render() {
     return (
       <form className="SizeInput" onSubmit={this.submit}>
-        <p>Board Height</p>
-        <input type="number" name="boardHeight" onChange={this.setInput}></input>
-        <p>Board Width</p>
-        <input type="number" name="boardWidth" onChange={this.setInput}></input>
-        <p>Mines</p>
-        <input type="number" name="mines" onChange={this.setInput}></input>
+        Board Height <input type="number" name="boardHeight" onChange={this.setInput}></input><br /><br />
+        Board Width<input type="number" name="boardWidth" onChange={this.setInput}></input><br /><br />
+        Mines<input type="number" name="mines" onChange={this.setInput}></input><br /><br />
         {this.state.boardHeight}{this.state.boardWidth}{this.state.mines}
         <input type="submit"></input>
       </form>
