@@ -34,7 +34,6 @@ class Grid extends Component {
     let visibility = this.visiblityGridMaker()
 
     let tilesLeft = (this.props.height * this.props.width) - this.props.mines
-    
     this.setState({
       grid: mineField,
       visibilityGrid: visibility,
@@ -191,7 +190,7 @@ class Grid extends Component {
     if (this.state.grid[y][x] === 0){
       this.firstMove(y,x)
     }
-    if(type === "click"){
+    else if(type === "click"){
       this.tileLeftClick(y,x)
     }
     else if(type === "contextmenu"){
@@ -207,7 +206,7 @@ class Grid extends Component {
       }
 
       //if blank
-      if(this.state.grid[y][x] === " "){
+      else if(this.state.grid[y][x] === " "){
         this.blankHandler(y,x)
       }
 
