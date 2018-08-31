@@ -110,3 +110,20 @@ most square, forcing the first move to be mine free. Ive had much, much stupider
 my idea was to generate a random number of blanks from 1 to total blanks/4. After that, generate a blob of blanks on the grid and then fill in mines and remaining blanks. the microsoft way makes it...less random because that one displaced mine will always go to right, but hell if it isnt more efficient by far. And most people wouldnt notice!
 
 board seems to break on double digits
+
+
+starting on the function "protected first tile"
+this function will take the first tile, and take all the surrounding tiles
+-4 if the first tile is in the corner
+-6 if surrounding tile is on a side
+-9 if the tile is anywhere else
+
+and make sure that those tiles have no mines. this will ensure that the first tile clicked will be a empty.
+because it's empty, it's "protected"
+
+this will first substitute the original grid with a less intensive, purely visual grid. this will stay until a tile is clicked. once a tile is clicked, the coordinates are logged, and given to a function. this function will now calculate the amount of squares to be set aside in the grid creation process. once those squares are set aside, do setup as usual, put mine mines in, and find the empties, put empties - set aside into the array.
+then, the 2d creation process is done. At that point, the coordinates of the set aside squares come into play, once those squares are hit, they are just replaced with empty spaces.
+
+
+logic is up to finish up the checks
+at setAsideHelper

@@ -14,7 +14,7 @@ class Grid extends Component {
   }
 
   componentDidMount(){
-    this.gridMaker()
+    this.starterGridMaker()
   }
 
   starterGridMaker(){
@@ -25,9 +25,9 @@ class Grid extends Component {
     })
   }
 
-  gridMaker(){
+  gridMaker(y,x){
     //lays mines/empties
-    let mineField = this.mineLayer()
+    let mineField = this.mineLayer(y,x)
     //lays numbers on empties
     mineField = this.numberLayer(mineField)
     //sets the visibility grid
@@ -42,11 +42,25 @@ class Grid extends Component {
     })
   }
 
-  mineLayer(){
+  mineLayer(y,x){
     let workingArray = [] //array to work on
     let result = []
-    let empties = (this.props.height * this.props.width) - this.props.mines //empty squares
+    let setAside = []
+    // this
+    this.setAsideHelper(y-1,x-1,setAside)
+    this.setAsideHelper(y-1,x,setAside)
+    this.setAsideHelper(y-1,x+1,setAside)
+    this.setAsideHelper(y,x-1,setAside)
+    this.setAsideHelper(y,x,setAside)
+    this.setAsideHelper(y,x+1,setAside)
+    this.setAsideHelper(y+1,x-1,setAside)
+    this.setAsideHelper(y+1,x,setAside)
+    this.setAsideHelper(y+1,x+1,setAside)
+
+    let empties = (this.props.height * this.props.width) - this.props.mines - setAside.length//empty squares
     //makes mines
+
+    debugger
     for(let i = 0; i < this.props.mines; i++){
       workingArray.push("*")
     }
@@ -115,6 +129,11 @@ class Grid extends Component {
       return true
     }
   }
+  setAsideHelper(y,x,arr){
+    if(this.outOfBoundsCheck(y,x)){
+      arr.push([y,x])
+    }
+  }
 
   visiblityGridMaker(){
     // makes the grid that stores visibility status
@@ -124,7 +143,7 @@ class Grid extends Component {
       row.push(0)
     }
     for(let i = 0;i<this.props.height;i++){
-      let newRow = Object.assign({},row)
+      let newRow = row.slice()
       result.push(newRow)
     }
     return result
@@ -148,7 +167,13 @@ class Grid extends Component {
   ///VVVVVVVVVVVVVVVVVVVV Click Handler VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
   ///VVVVVVVVVVVVVVVVVVVV Click Handler VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
   ///VVVVVVVVVVVVVVVVVVVV Click Handler VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV
+
   tileClick = (y,x,type) => {
+    y = parseInt(y)
+    x = parseInt(x)
+    if (this.state.grid[y][x] === 0){
+      this.firstMove(y,x)
+    }
     if(type === "click"){
       this.tileLeftClick(y,x)
     }
@@ -164,11 +189,9 @@ class Grid extends Component {
         this.lose()
       }
 
-
-
       //if blank
       if(this.state.grid[y][x] === " "){
-        this.blankHandler(parseInt(y),parseInt(x))
+        this.blankHandler(y,x)
       }
 
       //normal conditions
@@ -237,6 +260,33 @@ class Grid extends Component {
     }
   }
 
+
+  firstMove(y,x){
+    alert("first!")
+    let xMax = this.state.width - 1
+    let yMax = this.state.height - 1
+    // let setAside = 0
+    // //if one border is hit on X axis
+    // if(x === 0 || x === xMax){
+    //   //if any corner is hit
+    //   if(y === 0 || y === yMax){
+    //     setAside = 4
+    //   }
+    //   //only a border is hit
+    //   else{
+    //     setAside = 6
+    //   }
+    // }
+    // //a border is hit on Y axis
+    // else if(y === 0 || y === yMax){
+    //   setAside = 6
+    // }
+    // else{
+    //   setAside = 9
+    // }
+    this.gridMaker(y,x)
+  }
+
   winCheck(){
     if(this.state.tilesLeft === 0){
       this.win()
@@ -259,7 +309,7 @@ class Grid extends Component {
 
   reset(){
     // this.props.reset()
-    //debugger
+    debugger
     //alert(this.state.tilesLeft)
   }
 
