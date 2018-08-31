@@ -34,12 +34,12 @@ class Grid extends Component {
     let visibility = this.visiblityGridMaker()
 
     let tilesLeft = (this.props.height * this.props.width) - this.props.mines
-
+    
     this.setState({
       grid: mineField,
       visibilityGrid: visibility,
       tilesLeft: tilesLeft
-    })
+    },() => {this.blankHandler(y,x)})
   }
 
   mineLayer(y,x){
@@ -83,14 +83,12 @@ class Grid extends Component {
     // if added before [3,4] will throw off formula
     // Solution: items are added into the array based on how early they will
     // be hit in the 2d making process
-    debugger
     for(let i = 0;i<setAside.length;i++){
       let counter = 0
       counter += setAside[i][0] * this.props.width
       counter += setAside[i][1]
       workingArray.splice(counter,0," ")
     }
-    debugger
     // creates board, changes from 1d to 2d
     for(let i = 0; i < this.props.height; i++){
       let curVal = (this.props.width * (i+1))
