@@ -58,19 +58,39 @@ class Grid extends Component {
     this.setAsideHelper(y+1,x+1,setAside)
 
     let empties = (this.props.height * this.props.width) - this.props.mines - setAside.length//empty squares
-    //makes mines
 
-    debugger
-    for(let i = 0; i < this.props.mines; i++){
+    //makes mines
+    for(let mines = 0; mines < this.props.mines; mines++){
       workingArray.push("*")
     }
     //makes empties
-    for(let i = 0; i < empties; i++){
+    for(let empty = 0; empty< empties; empty++){
       workingArray.push(" ")
     }
     //shuffle board, mixes mines and empties
     workingArray = this.shuffle(workingArray)
 
+    //puts the setAside pieces back in
+    // logic as follows:
+    // for each element in setAside:
+    // example - height:5, width:6
+    // take the first number: [1,2] => 1
+    // that will be the number of elements you skip, times width.
+    // so 1 => 6,
+    // then the skip the next tiles, n == second number == 2
+    // so 6 => 8
+    // ISSUE: items in the array are might not be added in order, [4,4],
+    // if added before [3,4] will throw off formula
+    // Solution: items are added into the array based on how early they will
+    // be hit in the 2d making process
+    debugger
+    for(let i = 0;i<setAside.length;i++){
+      let counter = 0
+      counter += setAside[i][0] * this.props.width
+      counter += setAside[i][1]
+      workingArray.splice(counter,0," ")
+    }
+    debugger
     // creates board, changes from 1d to 2d
     for(let i = 0; i < this.props.height; i++){
       let curVal = (this.props.width * (i+1))
@@ -155,11 +175,10 @@ class Grid extends Component {
     let random = 0
     let temp = 0
     while (length) {
-      random = Math.floor(Math.random() * length);
+      random = Math.floor(Math.random() * length--);
       temp = array[length];
       array[length] = array[random];
       array[random] = temp;
-      length--
     }
     return array;
   }
@@ -262,28 +281,8 @@ class Grid extends Component {
 
 
   firstMove(y,x){
-    alert("first!")
     let xMax = this.state.width - 1
     let yMax = this.state.height - 1
-    // let setAside = 0
-    // //if one border is hit on X axis
-    // if(x === 0 || x === xMax){
-    //   //if any corner is hit
-    //   if(y === 0 || y === yMax){
-    //     setAside = 4
-    //   }
-    //   //only a border is hit
-    //   else{
-    //     setAside = 6
-    //   }
-    // }
-    // //a border is hit on Y axis
-    // else if(y === 0 || y === yMax){
-    //   setAside = 6
-    // }
-    // else{
-    //   setAside = 9
-    // }
     this.gridMaker(y,x)
   }
 
