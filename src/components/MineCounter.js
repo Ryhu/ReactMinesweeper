@@ -12,8 +12,8 @@ class MineCounter extends Component {
   render() {
     return (
       <div className="MineCounter headerPart">
-        <p>Mines</p>
-        <p>{this.props.minesLeft}</p>
+        <p className="partText">Mines:</p>
+        <p className="partNumber">{this.props.minesLeft}</p>
       </div>
     );
   }

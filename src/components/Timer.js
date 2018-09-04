@@ -12,8 +12,8 @@ class Timer extends Component {
   render() {
     return (
       <div className="Timer headerPart">
-        <p>Time</p>
-        <p>{this.props.time}</p>
+        <p className="partText">Time:</p>
+        <p className="partNumber">{this.props.time}</p>
       </div>
     );
   }

@@ -338,7 +338,7 @@ class Grid extends Component {
   }
 
   displayGrid(){
-    return(<div>
+    return(<div id="gameBoard">
 
       <div id="header">
         <Timer time={this.state.time} />
