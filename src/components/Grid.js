@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import Tile from '../components/Tile.js'
+import Timer from '../components/Timer.js'
 
 class Grid extends Component {
 
@@ -10,13 +11,28 @@ class Grid extends Component {
       tilesLeft: 0,
       grid: [],
       visibilityGrid: [],
+      time: 0,
     }
+  }
+
+  timerStart(){
+    this.a = setInterval(() => {
+      this.setState({
+        time: this.state.time+1
+      })
+    }, 1000);
+  }
+
+  timerStop(){
+    clearInterval(this.a)
   }
 
   componentDidMount(){
     this.starterGridMaker()
+    this.timerStart()
   }
 
+  //makes an empty grid, before rendering the actual grid
   starterGridMaker(){
     let visibility = this.visiblityGridMaker()
     this.setState({
@@ -291,20 +307,24 @@ class Grid extends Component {
   }
 
   win(){
-    setTimeout(function(){
+    setTimeout(() => {
+      this.timerStop()
       alert("you win!")
     },200)
   }
 
   lose(){
     //the delay allows the render to happen
-    setTimeout(function(){
+    setTimeout(() => {
+      this.timerStop()
       alert(" you lose")
     },200)
   }
 
 
+  // testing button/ back to main screen
   reset(){
+    this.timerStop()
     this.props.reset()
     //debugger
     //alert(this.state.tilesLeft)
@@ -312,6 +332,7 @@ class Grid extends Component {
 
   displayGrid(){
     return(<div>
+      <Timer time={this.state.time} />
       <table id="grid">
       <tbody>
       {this.state.grid.map((i,indexI) => {
