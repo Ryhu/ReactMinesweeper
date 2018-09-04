@@ -126,4 +126,12 @@ then, the 2d creation process is done. At that point, the coordinates of the set
 
 
 logic is up to finish up the checks
-at setAsideHelper
+checks are done,
+all main functionality are done
+
+TODOs: timer, mine counter, right click on number tile to check for surrounding mines, and click um
+
+timer done
+mineCounter done
+
+basic display done, could look flashier

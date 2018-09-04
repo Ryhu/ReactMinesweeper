@@ -30,6 +30,7 @@
 
 #grid{
   margin:auto;
+  padding-bottom:30px;
 }
 #resetButton{
   margin:auto;
@@ -46,4 +47,18 @@
 
 .hidden{
   background-color:gray;
+}
+
+#header{
+  display:inline;
+}
+.headerPart{
+  display:inline-block;
+  margin-left:100px;
+  margin-right:100px;
+}
+
+#resetButton{
+  font-size:30px;
+  margin-bottom:50px;
 }

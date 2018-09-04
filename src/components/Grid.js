@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Tile from '../components/Tile.js'
 import Timer from '../components/Timer.js'
+import MineCounter from '../components/MineCounter.js'
 
 class Grid extends Component {
 
@@ -12,6 +13,7 @@ class Grid extends Component {
       grid: [],
       visibilityGrid: [],
       time: 0,
+      minesLeft: 0,
     }
   }
 
@@ -38,6 +40,7 @@ class Grid extends Component {
     this.setState({
       grid: visibility,
       visibilityGrid: visibility,
+      minesLeft: this.props.mines,
     })
   }
 
@@ -239,16 +242,20 @@ class Grid extends Component {
   }
   tileRightClick(y,x){
     let vis = this.state.visibilityGrid
+    let minesLeft = this.state.minesLeft
 
     if(vis[y][x] === "P"){
       vis[y][x] = 0
+      minesLeft += 1
     }
     else if(vis[y][x] === 0){
       vis[y][x] = "P"
+      minesLeft -= 1
     }
 
     this.setState({
       visibilityGrid: vis,
+      minesLeft: minesLeft
     })
   }
   ///^^^^^^^^^^^^^^^^^^^^ ^^^^^^^^^^^^^ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -332,7 +339,12 @@ class Grid extends Component {
 
   displayGrid(){
     return(<div>
-      <Timer time={this.state.time} />
+
+      <div id="header">
+        <Timer time={this.state.time} />
+        <MineCounter minesLeft={this.state.minesLeft} />
+      </div>
+
       <table id="grid">
       <tbody>
       {this.state.grid.map((i,indexI) => {
