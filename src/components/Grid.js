@@ -200,18 +200,19 @@ class Grid extends Component {
   tileLeftClick(y,x){
     let vis = this.state.visibilityGrid
     if (vis[y][x] === 0 ){
-      //lose condition
-      if(this.state.grid[y][x] === "*"){
-        this.lose()
-      }
 
       //if blank
-      else if(this.state.grid[y][x] === " "){
+      if(this.state.grid[y][x] === " "){
         this.blankHandler(y,x)
       }
 
       //normal conditions
       else{
+        //lose condition
+        if(this.state.grid[y][x] === "*"){
+          this.lose()
+        }
+
         vis[y][x] = 1
         this.setState({
           visibilityGrid: vis,
@@ -304,8 +305,8 @@ class Grid extends Component {
 
 
   reset(){
-    // this.props.reset()
-    debugger
+    this.props.reset()
+    //debugger
     //alert(this.state.tilesLeft)
   }
 

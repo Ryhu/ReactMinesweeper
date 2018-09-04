@@ -38,7 +38,9 @@ class SizeInput extends Component {
         Board Height <input type="number" name="boardHeight" onChange={this.setInput}></input><br /><br />
         Board Width<input type="number" name="boardWidth" onChange={this.setInput}></input><br /><br />
         Mines<input type="number" name="mines" onChange={this.setInput}></input><br /><br />
-        <input type="submit"></input>
+        <input type="submit"></input><br /><br />
+
+        Presets:<br />
 
         <button onClick={() => this.preSet(9,9,10)}>Beginner</button>
         <button onClick={() => this.preSet(16,16,40)}>Intermediate</button>
